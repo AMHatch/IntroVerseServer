@@ -14,6 +14,8 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
     }
 );
 
+
+
 try {
     app.listen(port, (): void => {
         console.log(`Connected successfully on port ${port}`);
