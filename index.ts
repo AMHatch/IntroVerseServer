@@ -1,4 +1,5 @@
-import express, { Application, Request, Response } from "express";
+const express = require('express');
+import { Application, Request, Response } from "express";
 
 const app: Application = express();
 const port = 3001;
@@ -13,6 +14,8 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
         });
     }
 );
+
+app.use(require('./routes/index'));
 
 try {
     app.listen(port, (): void => {
