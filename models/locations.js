@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      models.posts.hasMany(models.comments, {foreignKey: 'locationID'})    }
+      models.locations.hasMany(models.comments, {foreignKey: 'locationID'})    }
   };
   locations.init({
     name: DataTypes.STRING,

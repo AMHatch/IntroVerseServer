@@ -1,5 +1,4 @@
-const express = require('express');
-import { Application, Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
 
 const app: Application = express();
 const port = 3001;
@@ -22,5 +21,5 @@ try {
         console.log(`Connected successfully on port ${port}`);
     });
 } catch (error) {
-    console.error(`Error occured: ${error.message}`);
+    console.error(`Error occured: ${error}`);
 }
