@@ -14,12 +14,12 @@ app.get("/", async (req: Request, res: Response): Promise<Response> => {
     }
 );
 
-
+app.use(require('./routes/index'));
 
 try {
     app.listen(port, (): void => {
         console.log(`Connected successfully on port ${port}`);
     });
 } catch (error) {
-    console.error(`Error occured: ${error.message}`);
+    console.error(`Error occured: ${error}`);
 }
