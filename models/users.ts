@@ -1,7 +1,7 @@
 'use strict';
 import {Model} from 'sequelize';
 
-interface UserAttributes {
+export interface UserAttributes {
   id: number;
   roleName: string;
   email: string;

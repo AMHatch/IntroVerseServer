@@ -1,7 +1,7 @@
 'use strict';
 import {Model} from 'sequelize';
 
-interface CommentsAttributes {
+export interface CommentsAttributes {
   id: number;
   userID: number;
   locationID: number;

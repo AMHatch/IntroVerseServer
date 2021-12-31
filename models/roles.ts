@@ -1,7 +1,7 @@
 'use strict';
 import  {Model} from 'sequelize';
 
-interface RolesAttributes {
+export interface RolesAttributes {
   id: number;
   roleName: string;
 }
