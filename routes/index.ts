@@ -34,7 +34,7 @@ router.get('/route', async (req: Request, res: Response): Promise<Response> => {
 );
 
 router.post('/register', async (req: Request, res: Response) => {
-        let {email, password, introvertRating, homeCity, state} = req.body
+        let {email, password, homeCity, state} = req.body
         try{
             //determine if email already exists in our db
             let search = await db.users.findAll({where: {email}})
