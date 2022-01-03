@@ -1,7 +1,7 @@
 'use strict';
 import {Model} from 'sequelize';
 
-interface LocationsAttributes {
+export interface LocationsAttributes {
   id: number;
   name: string;
   latitude: number;
