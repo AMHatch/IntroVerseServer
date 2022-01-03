@@ -6,12 +6,11 @@ import { secrets } from '../secrets';
 import jwt from "jwt-simple"
 import bcrypt from "bcryptjs";
 import { UserAttributes } from '../models/users';
-import { localLogin, jwtLogin } from '../auth/passAuth';
 const Op = Sequelize.Op;
 const router: Router = Router();
+require('../auth/passAuth');
 
-passport.use(localLogin)
-passport.use(jwtLogin)
+
 router.use(passport.initialize());
 
 //middleware function - gatekeeper
@@ -34,6 +33,7 @@ router.get('/route', async (req: Request, res: Response): Promise<Response> => {
 );
 
 router.post('/register', async (req: Request, res: Response) => {
+    console.log('in register server')
         let {email, password, homeCity, homeState, username} = req.body
         try{
             //determine if email already exists in our db
