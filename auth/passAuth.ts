@@ -8,7 +8,8 @@ import db from "../models";
 
 //local strategy
 let options  = {usernameField: 'email'}
-export const localLogin = new LocalStrategy(options, async (email, password, done) => {
+const localLogin = new LocalStrategy(options, async (email, password, done) => {
+    console.log('local login')
     try{
         //check to see if email is in our db
         let records = await db.users.findAll({where: {email}})
@@ -45,7 +46,7 @@ let jwtOptions = {
     passReqToCallback: true
 }
 
-export const jwtLogin = new JwtStrategy(jwtOptions, async (req: Request, payload: any, done: VerifiedCallback) => {
+const jwtLogin = new JwtStrategy(jwtOptions, async (req: Request, payload: any, done: VerifiedCallback) => {
     //payload.sub == primary key
     try {
         //check if user in db
@@ -61,3 +62,6 @@ export const jwtLogin = new JwtStrategy(jwtOptions, async (req: Request, payload
         return done(err)
     }
 })
+
+passport.use(localLogin)
+passport.use(jwtLogin)
