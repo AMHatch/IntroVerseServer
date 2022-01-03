@@ -34,7 +34,7 @@ router.get('/route', async (req: Request, res: Response): Promise<Response> => {
 );
 
 router.post('/register', async (req: Request, res: Response) => {
-        let {email, password, introvertRating, homeCity, state} = req.body
+        let {email, password, homeCity, state, username} = req.body
         try{
             //determine if email already exists in our db
             let search = await db.users.findAll({where: {email}})
@@ -49,7 +49,8 @@ router.post('/register', async (req: Request, res: Response) => {
                     roleName: "Basic",
                     introvertRating: 0,
                     homeCity: homeCity,
-                    state: state
+                    state: state,
+                    username: username
                 })
                 let jwtToken = token(user)
                 console.log(jwtToken)

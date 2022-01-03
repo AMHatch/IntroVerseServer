@@ -9,6 +9,7 @@ export interface UserAttributes {
   introvertRating: number;
   homeCity: string;
   state: string;
+  username: string;
 }
 
 module.exports = (sequelize: any, DataTypes: any) => {
@@ -26,6 +27,7 @@ module.exports = (sequelize: any, DataTypes: any) => {
     introvertRating!: number;
     homeCity!: string;
     state!: string;
+    username!: string;
     static associate(models: any) {
       models.users.belongsTo(models.roles, {foreignKey: 'roleName'})
       models.users.hasMany(models.comments, {foreignKey: 'userID'})    }
@@ -58,6 +60,10 @@ module.exports = (sequelize: any, DataTypes: any) => {
       allowNull: false
     },
     state: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    username: {
       type: DataTypes.STRING,
       allowNull: false
     }
