@@ -34,7 +34,7 @@ router.get('/route', async (req: Request, res: Response): Promise<Response> => {
 );
 
 router.post('/register', async (req: Request, res: Response) => {
-        let {email, password, homeCity, state, username} = req.body
+        let {email, password, homeCity, homeState, username} = req.body
         try{
             //determine if email already exists in our db
             let search = await db.users.findAll({where: {email}})
@@ -49,12 +49,17 @@ router.post('/register', async (req: Request, res: Response) => {
                     roleName: "Basic",
                     introvertRating: 0,
                     homeCity: homeCity,
-                    state: state,
+                    state: homeState,
                     username: username
                 })
                 let jwtToken = token(user)
-                console.log(jwtToken)
-                return res.json({token: jwtToken})
+                return res.json({
+                    token: jwtToken,
+                    username: user.username,
+                    introvertRating: user.introvertRating,
+                    homeCity: user.homeCity,
+                    homeState: user.state,
+                })
             } else {
                 //email was found
     
@@ -69,11 +74,23 @@ router.post('/register', async (req: Request, res: Response) => {
 
 router.post('/login', requireLogin, (req: Request, res: Response) => {
     let user =  req.user as UserAttributes
-    res.json({token: token(user)})
+    return res.json({
+        token: token(user),
+        username: user.username,
+        introvertRating: user.introvertRating,
+        homeCity: user.homeCity,
+        homeState: user.state,
+    })
 })
 
 router.get('/protected', requireJwt, (req: Request, res: Response) => {
-    res.json({isValid: true})
+    return res.json({isValid: true})
+})
+
+router.put('/introvertrating/:introvertRating', requireJwt, async (req: Request, res: Response) => {
+    let introvertRating: number = parseInt(req.params.introvertRating)
+    let { id } = req.user as UserAttributes
+    await db.users.update({introvertRating: introvertRating}, {where: {id: id}})
 })
 
 module.exports = router
