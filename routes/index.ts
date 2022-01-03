@@ -72,4 +72,8 @@ router.post('/login', requireLogin, (req: Request, res: Response) => {
     res.json({token: token(user)})
 })
 
+router.get('/protected', requireJwt, (req: Request, res: Response) => {
+    res.json({isValid: true})
+})
+
 module.exports = router
