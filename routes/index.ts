@@ -10,6 +10,7 @@ import { localLogin, jwtLogin } from '../auth/passAuth';
 const Op = Sequelize.Op;
 const router: Router = Router();
 
+
 passport.use(localLogin)
 passport.use(jwtLogin)
 router.use(passport.initialize());
