@@ -87,6 +87,11 @@ router.get('/protected', requireJwt, (req: Request, res: Response) => {
     return res.json({isValid: true})
 })
 
+router.get('/test', (req: Request, res: Response) => {
+    return res.send('hello workd server test')
+    
+})
+
 router.put('/introvertrating/:introvertRating', requireJwt, async (req: Request, res: Response) => {
     let introvertRating: number = parseInt(req.params.introvertRating)
     let { id } = req.user as UserAttributes
