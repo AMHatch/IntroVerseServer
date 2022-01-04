@@ -83,6 +83,11 @@ router.post('/login', requireLogin, (req: Request, res: Response) => {
     })
 })
 
+router.get('/test', (req: Request, res: Response) => {
+    res.send('hello world server test')
+    
+})
+
 router.get('/protected', requireJwt, (req: Request, res: Response) => {
     return res.json({isValid: true})
 })
