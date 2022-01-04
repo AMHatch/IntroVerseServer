@@ -87,10 +87,19 @@ router.get('/protected', requireJwt, (req: Request, res: Response) => {
     return res.json({isValid: true})
 })
 
-router.put('/introvertrating/:introvertRating', requireJwt, async (req: Request, res: Response) => {
-    let introvertRating: number = parseInt(req.params.introvertRating)
-    let { id } = req.user as UserAttributes
+router.put('/introvertrating', async (req: Request, res: Response) => {
+    let {introvertRating, token} = req.body
+    let decode = jwt.decode(token, secrets.secrets);
+    let id: number = decode.sub
     await db.users.update({introvertRating: introvertRating}, {where: {id: id}})
+    let response  = await db.users.findByPk(id)
+    let user = response.dataValues as UserAttributes
+    return res.json({
+        username: user.username,
+        introvertRating: user.introvertRating,
+        homeCity: user.homeCity,
+        homeState: user.state,
+    })
 })
 
 module.exports = router
