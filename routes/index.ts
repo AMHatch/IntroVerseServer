@@ -84,7 +84,8 @@ router.post('/login', requireLogin, (req: Request, res: Response) => {
 })
 
 router.get('/test', (req: Request, res: Response) => {
-    res.send('hello world server test')
+    
+    return res.send('hello world server test')
     
 })
 
