@@ -1,12 +1,13 @@
+
 import { Router, Request, Response } from 'express';
 import db from '../models'
 import Sequelize from "sequelize"
 import passport from "passport"
-import { secrets } from '../secrets';
 import jwt from "jwt-simple"
 import bcrypt from "bcryptjs";
 import { UserAttributes } from '../models/users';
 const Op = Sequelize.Op;
+
 const router: Router = Router();
 require('../auth/passAuth');
 
@@ -21,9 +22,12 @@ type JwtPayload = {
     sub: number;
     iat: number;
 }
+var secret = process.env.SECRETS!
+
+
 const token = (user: UserAttributes) => {
     let timestamp = new Date().getTime(); //current time
-    return jwt.encode({sub:user.id, iat:timestamp}, secrets.secrets) //encode take {data} and secret
+    return jwt.encode({sub:user.id, iat:timestamp}, secret) //encode take {data} and secret
 }
 
 router.post('/register', async (req: Request, res: Response) => {
@@ -76,6 +80,18 @@ router.post('/login', requireLogin, (req: Request, res: Response) => {
     })
 })
 
+
+router.get('/test', (req: Request, res: Response) => {
+    
+    return res.send('hello world server test')
+    
+})
+
+router.put('/introvertrating/:introvertRating', requireJwt, async (req: Request, res: Response) => {
+    let introvertRating: number = parseInt(req.params.introvertRating)
+    let { id } = req.user as UserAttributes
+    await db.users.update({introvertRating: introvertRating}, {where: {id: id}})
+
 router.put('/introvertrating', requireJwt, async (req: Request, res: Response) => {
     let {introvertRating} = req.body
     let user = req.user as UserAttributes
@@ -92,6 +108,7 @@ router.put('/introvertrating', requireJwt, async (req: Request, res: Response) =
 
 router.get('/protected', requireJwt, (req: Request, res: Response) => {
     return res.json({isValid: true})
+
 })
 
 module.exports = router

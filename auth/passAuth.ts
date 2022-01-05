@@ -3,7 +3,7 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import { Request } from "express";
 import {ExtractJwt, Strategy as JwtStrategy, VerifiedCallback} from "passport-jwt";
-import { secrets } from "../secrets";
+var secret = process.env.SECRETS!
 import db from "../models";
 
 //local strategy
@@ -42,7 +42,7 @@ const localLogin = new LocalStrategy(options, async (email, password, done) => {
 
 let jwtOptions = {
     jwtFromRequest: ExtractJwt.fromHeader('authorization'),
-    secretOrKey: secrets.secrets,
+    secretOrKey: secret,
     passReqToCallback: true
 }
 
