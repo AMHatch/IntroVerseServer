@@ -10,7 +10,6 @@ const db: any = {};
 
 let sequelize: any;
 
-type use_env_variable = any | undefined
 
 if (config.use_env_variable) {
   sequelize = new Sequelize(process.env[config.use_env_variable], config);
