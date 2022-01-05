@@ -87,11 +87,6 @@ router.get('/test', (req: Request, res: Response) => {
     
 })
 
-router.put('/introvertrating/:introvertRating', requireJwt, async (req: Request, res: Response) => {
-    let introvertRating: number = parseInt(req.params.introvertRating)
-    let { id } = req.user as UserAttributes
-    await db.users.update({introvertRating: introvertRating}, {where: {id: id}})
-
 router.put('/introvertrating', requireJwt, async (req: Request, res: Response) => {
     let {introvertRating} = req.body
     let user = req.user as UserAttributes
