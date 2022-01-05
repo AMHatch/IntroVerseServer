@@ -1,3 +1,4 @@
+
 import { Router, Request, Response } from 'express';
 import db from '../models'
 import Sequelize from "sequelize"
@@ -22,9 +23,12 @@ type JwtPayload = {
     sub: number;
     iat: number;
 }
+var secret = process.env.SECRETS!
+
+
 const token = (user: UserAttributes) => {
     let timestamp = new Date().getTime(); //current time
-    return jwt.encode({sub:user.id, iat:timestamp}, secrets.secrets) //encode take {data} and secret
+    return jwt.encode({sub:user.id, iat:timestamp}, secret) //encode take {data} and secret
 }
 
 router.get('/route', async (req: Request, res: Response): Promise<Response> => {
@@ -88,7 +92,7 @@ router.get('/protected', requireJwt, (req: Request, res: Response) => {
 })
 
 router.get('/test', (req: Request, res: Response) => {
-    return res.send('hello workd server test')
+    return res.send('hello world server test')
     
 })
 
