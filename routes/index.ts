@@ -3,7 +3,6 @@ import { Router, Request, Response } from 'express';
 import db from '../models'
 import Sequelize from "sequelize"
 import passport from "passport"
-import { secrets } from '../secrets';
 import jwt from "jwt-simple"
 import bcrypt from "bcryptjs";
 import { UserAttributes } from '../models/users';
