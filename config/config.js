@@ -1,7 +1,7 @@
 
 module.exports = {
 "development": {
-    "use_env_variable": "DATABASE_URL",
+    "use_env_variable": process.env.DATABASE_URL,
     "username": process.env.DB_USER,
     "password": process.env.DB_PASS,
     "database": process.env.DB_DATABASE,
