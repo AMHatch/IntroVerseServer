@@ -10,7 +10,7 @@ const Op = Sequelize.Op;
 const router: Router = Router();
 require('../auth/passAuth');
 
-
+//initialize passport
 router.use(passport.initialize());
 
 //middleware function - gatekeeper
@@ -25,12 +25,6 @@ const token = (user: UserAttributes) => {
     let timestamp = new Date().getTime(); //current time
     return jwt.encode({sub:user.id, iat:timestamp}, secrets.secrets) //encode take {data} and secret
 }
-
-router.get('/route', async (req: Request, res: Response): Promise<Response> => {
-    let result = await db.users.findAll()
-    return res.json(result);
-}
-);
 
 router.post('/register', async (req: Request, res: Response) => {
     console.log('in register server')
@@ -62,7 +56,6 @@ router.post('/register', async (req: Request, res: Response) => {
                 })
             } else {
                 //email was found
-    
                 //return error with a status code
                 return res.status(422).json({error: 'Email already exists'})
             }
@@ -83,14 +76,22 @@ router.post('/login', requireLogin, (req: Request, res: Response) => {
     })
 })
 
-router.get('/protected', requireJwt, (req: Request, res: Response) => {
-    return res.json({isValid: true})
+router.put('/introvertrating', requireJwt, async (req: Request, res: Response) => {
+    let {introvertRating} = req.body
+    let user = req.user as UserAttributes
+    console.log('user', user)
+    await db.users.update({introvertRating: introvertRating}, {where: {id: user.id}})
+    let response  = await db.users.findByPk(user.id)
+    return res.json({
+        username: response.dataValues.username,
+        introvertRating: response.dataValues.introvertRating,
+        homeCity: response.dataValues.homeCity,
+        homeState: response.dataValues.state,
+    })
 })
 
-router.put('/introvertrating/:introvertRating', requireJwt, async (req: Request, res: Response) => {
-    let introvertRating: number = parseInt(req.params.introvertRating)
-    let { id } = req.user as UserAttributes
-    await db.users.update({introvertRating: introvertRating}, {where: {id: id}})
+router.get('/protected', requireJwt, (req: Request, res: Response) => {
+    return res.json({isValid: true})
 })
 
 module.exports = router
