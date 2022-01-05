@@ -76,18 +76,17 @@ router.post('/login', requireLogin, (req: Request, res: Response) => {
     })
 })
 
-router.put('/introvertrating', async (req: Request, res: Response) => {
-    let {introvertRating, token} = req.body
-    let decode = jwt.decode(token, secrets.secrets);
-    let id: number = decode.sub
-    await db.users.update({introvertRating: introvertRating}, {where: {id: id}})
-    let response  = await db.users.findByPk(id)
-    let user = response.dataValues as UserAttributes
+router.put('/introvertrating', requireJwt, async (req: Request, res: Response) => {
+    let {introvertRating} = req.body
+    let user = req.user as UserAttributes
+    console.log('user', user)
+    await db.users.update({introvertRating: introvertRating}, {where: {id: user.id}})
+    let response  = await db.users.findByPk(user.id)
     return res.json({
-        username: user.username,
-        introvertRating: user.introvertRating,
-        homeCity: user.homeCity,
-        homeState: user.state,
+        username: response.dataValues.username,
+        introvertRating: response.dataValues.introvertRating,
+        homeCity: response.dataValues.homeCity,
+        homeState: response.dataValues.state,
     })
 })
 
