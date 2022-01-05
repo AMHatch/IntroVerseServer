@@ -8,6 +8,7 @@ import bcrypt from "bcryptjs";
 import { UserAttributes } from '../models/users';
 import { localLogin, jwtLogin } from '../auth/passAuth';
 const Op = Sequelize.Op;
+
 const router: Router = Router();
 
 passport.use(localLogin)
