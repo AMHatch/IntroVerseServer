@@ -10,7 +10,7 @@ const Op = Sequelize.Op;
 const router: Router = Router();
 require('../auth/passAuth');
 
-
+//initialize passport
 router.use(passport.initialize());
 
 //middleware function - gatekeeper
@@ -25,12 +25,6 @@ const token = (user: UserAttributes) => {
     let timestamp = new Date().getTime(); //current time
     return jwt.encode({sub:user.id, iat:timestamp}, secrets.secrets) //encode take {data} and secret
 }
-
-router.get('/route', async (req: Request, res: Response): Promise<Response> => {
-    let result = await db.users.findAll()
-    return res.json(result);
-}
-);
 
 router.post('/register', async (req: Request, res: Response) => {
     console.log('in register server')
@@ -62,7 +56,6 @@ router.post('/register', async (req: Request, res: Response) => {
                 })
             } else {
                 //email was found
-    
                 //return error with a status code
                 return res.status(422).json({error: 'Email already exists'})
             }
@@ -83,10 +76,6 @@ router.post('/login', requireLogin, (req: Request, res: Response) => {
     })
 })
 
-router.get('/protected', requireJwt, (req: Request, res: Response) => {
-    return res.json({isValid: true})
-})
-
 router.put('/introvertrating', async (req: Request, res: Response) => {
     let {introvertRating, token} = req.body
     let decode = jwt.decode(token, secrets.secrets);
@@ -100,6 +89,10 @@ router.put('/introvertrating', async (req: Request, res: Response) => {
         homeCity: user.homeCity,
         homeState: user.state,
     })
+})
+
+router.get('/protected', requireJwt, (req: Request, res: Response) => {
+    return res.json({isValid: true})
 })
 
 module.exports = router
