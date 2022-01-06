@@ -1,9 +1,0 @@
-{
-  "development": {
-    "username": "umlkoygf",
-    "password": "PD6ClrnYXf4oe9yDwd3NRWlwPTkXhl76",
-    "database": "umlkoygf",
-    "host": "castor.db.elephantsql.com",
-    "dialect": "postgres"
-  }
-}
