@@ -33,6 +33,7 @@ const token = (user: UserAttributes) => {
 router.post('/register', async (req: Request, res: Response) => {
     console.log('in register server')
         let {email, password, homeCity, homeState, username} = req.body
+        console.log(req.body)
         try{
             //determine if email already exists in our db
             let search = await db.users.findAll({where: {email}})
@@ -86,11 +87,6 @@ router.get('/test', (req: Request, res: Response) => {
     return res.send('hello world server test')
     
 })
-
-router.put('/introvertrating/:introvertRating', requireJwt, async (req: Request, res: Response) => {
-    let introvertRating: number = parseInt(req.params.introvertRating)
-    let { id } = req.user as UserAttributes
-    await db.users.update({introvertRating: introvertRating}, {where: {id: id}})
 
 router.put('/introvertrating', requireJwt, async (req: Request, res: Response) => {
     let {introvertRating} = req.body
