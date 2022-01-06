@@ -33,6 +33,7 @@ const token = (user: UserAttributes) => {
 router.post('/register', async (req: Request, res: Response) => {
     console.log('in register server')
         let {email, password, homeCity, homeState, username} = req.body
+        console.log(req.body)
         try{
             //determine if email already exists in our db
             let search = await db.users.findAll({where: {email}})
